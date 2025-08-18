@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>User Dashboard</title>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-100 text-gray-700">
+    <div class="flex">
+      <aside class="bg-white shadow-lg rounded-sm h-screen p-9 w-80">
+        <div class="flex justify-between mb-3">
+          <h2 class="text-3xl font-bold">Folders</h2>
+          <a href="/folders/new"
+            ><button class="bg-slate-200 rounded px-3 py-2">
+              Create New
+            </button></a
+          >
+        </div>
+        <a href="" class="block bg-slate-400 rounded px-3 py-2 mb-3"
+          >Category</a
+        >
+        <a href="" class="block bg-slate-400 rounded px-3 py-2 mb-3"
+          >Category</a
+        >
+
+        <a href="" class="block bg-slate-400 rounded px-3 py-2 mb-3"
+          >Category</a
+        >
+
+        <a href="" class="block bg-slate-400 rounded px-3 py-2 mb-3"
+          >Category</a
+        >
+      </aside>
+      <div class="p-9 w-full md:max-w-4xl">
+        <div class="flex justify-between mb-2">
+          <h1 class="font-bold">Files</h1>
+          <a href="/file/new"><button class="bg-slate-200 rounded px-3 py-2">Create New</button></a>
+        </div>
+
+      </div>
+    </div>
+  </body>
+</html>

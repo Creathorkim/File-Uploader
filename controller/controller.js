@@ -1,12 +1,20 @@
 const passport = require("passport");
 const prisma = require("../src/prismaClient");
+const bcrypt = require("bcryptjs");
 
+const mainpage = (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.redirect("/login");
+  } else {
+    res.render("dashboard");
+  }
+};
 const signUpGet = (req, res) => {
   res.render("sign-up");
 };
 
 const signUpPost = async (req, res) => {
-  const hash = await bcrypt.hash(req.password, 10);
+  const hash = await bcrypt.hash(req.body.password, 10);
   await prisma.user.create({
     data: {
       username: req.body.username,
@@ -22,18 +30,18 @@ const loginGet = (req, res) => {
   res.render("login");
 };
 
-const loginPost = (req, res) => {
-  passport.authenticate("locals", {
+const loginPost = (req, res, next) => {
+  passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
-  });
+  })(req, res, next);
 };
 
 const folderGet = (req, res) => {
-  if (!req.authenticated) {
-    res.redirect("/");
+  if (!req.isAuthenticated()) {
+    res.redirect("/login");
   }
-  res.render("new-folder");
+  res.render("addfolder.ejs");
 };
 
 const folderPost = async (req, res) => {
@@ -44,6 +52,10 @@ const folderPost = async (req, res) => {
     },
   });
   res.redirect("/");
+};
+
+const newFileGet = (req, res) => {
+  res.render("addfile.ejs");
 };
 
 const getfolderfiles = async (req, res) => {
@@ -69,4 +81,6 @@ module.exports = {
   folderPost,
   getfolderfiles,
   deletefolderfiles,
+  mainpage,
+  newFileGet
 };

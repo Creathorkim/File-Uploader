@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>Sign Up</title>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="flex items-center justify-center min-h-screen bg-slate-100 p-5">
+    <div
+      class="bg-slate-200 p-8 rounded-lg shadow-lg w-full md:max-w-3xl sm:max-w-md text-gray-700"
+    >
+      <form action="/sign-up" method="post">
+        <h3 class="text-center text-3xl font-bold mb-8">Sign Up</h3>
+        <div class="mb-3">
+          <label for="username" class="block text-sm font-semibold mb-2"
+            >Username</label
+          >
+          <input
+            type="text"
+            class="rounded-md px-4 py-3 w-full border outline-none"
+            name="username"
+            placeholder="Enter a unique Username"
+            required
+          />
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
+          <div class="mb-3">
+            <label for="firstname" class="block text-sm font-semibold mb-2"
+              >First Name</label
+            >
+            <input
+              type="text"
+              class="rounded-md px-4 py-3 w-full border outline-none"
+              name="firstName"
+              placeholder="Richard"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="lastName" class="block text-sm font-semibold mb-2"
+              >Last Name</label
+            >
+            <input
+              type="text"
+              class="rounded-md px-4 py-3 w-full border outline-none"
+              name="lastName"
+              placeholder="Murray"
+              required
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="block text-sm font-semibold mb-2"
+            >Password</label
+          >
+          <input
+            type="password"
+            class="rounded-md px-4 py-3 w-full border outline-none"
+            name="password"
+            placeholder="@kimtotheworld"
+            required
+          />
+        </div>
+        <button
+          class="bg-gray-700 text-white py-3 w-full rounded-md hover:bg-slate-950"
+        >
+          Submit
+        </button>
+        <p class="p-4 text-center "><a href="/login" class="hover:underline">Have an account? Log-in</a></p>
+      </form>
+    </div>
+  </body>
+</html>

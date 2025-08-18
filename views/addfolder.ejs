@@ -8,7 +8,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <title>Login</title>
+    <title>Create New Folder</title>
     <style>
       body {
         font-family: "Inter", sans-serif;
@@ -19,29 +19,17 @@
     <div
       class="bg-slate-200 p-8 rounded-lg shadow-lg w-full md:max-w-3xl sm:max-w-md text-gray-700"
     >
-      <form action="/login" method="post">
-        <h3 class="text-center text-3xl font-bold mb-8">Log In</h3>
+      <form action="/create-new-folder" method="post">
+        <h3 class="text-center text-3xl font-bold mb-8">Add a new Folder</h3>
         <div class="mb-3">
-          <label for="username" class="block text-sm font-semibold mb-2"
-            >Username</label
+          <label for="FolderName" class="block text-sm font-semibold mb-2"
+            >Name</label
           >
           <input
             type="text"
             class="rounded-md px-4 py-3 w-full border outline-none"
-            name="username"
+            name="name"
             placeholder="Enter a unique Username"
-            required
-          />
-        </div>
-        <div class="mb-3">
-          <label for="password" class="block text-sm font-semibold mb-2"
-            >Password</label
-          >
-          <input
-            type="password"
-            class="rounded-md px-4 py-3 w-full border outline-none"
-            name="password"
-            placeholder="@kimtotheworld"
             required
           />
         </div>
@@ -50,11 +38,6 @@
         >
           Submit
         </button>
-        <p class="p-4 text-center">
-          <a href="/sign-up" class="hover:underline"
-            >Don't have an account? Sign up</a
-          >
-        </p>
       </form>
     </div>
   </body>
