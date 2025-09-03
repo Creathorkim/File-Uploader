@@ -8,46 +8,382 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2LhUPJ+L+d6dK/t+4fD/r+4g5e4/gqD6t4f6uVq+L+t4uVq+r/Vq+g/Q="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="shortcut icon" href="../rubaitul-azad-bCmonOgEIlw-unsplash.jpg" type="image/x-icon">
     <title>User Dashboard</title>
     <style>
       body {
         font-family: "Inter", sans-serif;
       }
+      .hamburger-icon {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 24px;
+      }
+      .hamburger-icon span {
+        background-color: white;
+        width: 30px;
+        height: 2px;
+        border-radius: 2px;
+        transition: 0.3s;
+      }
+      .hamburger-icon.open span:nth-child(1) {
+        transform: translateY(10px) rotate(45deg);
+      }
+      .hamburger-icon.open span:nth-child(2) {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      .hamburger-icon.open span:nth-child(3) {
+        transform: translateY(-10px) rotate(-45deg);
+      }
     </style>
   </head>
   <body class="bg-slate-100 text-gray-700">
-    <div class="flex">
-      <aside class="bg-white shadow-lg rounded-sm h-screen p-9 w-80">
-        <div class="flex justify-between mb-3">
-          <h2 class="text-3xl font-bold">Folders</h2>
-          <a href="/folders/new"
-            ><button class="bg-slate-200 rounded px-3 py-2">
-              Create New
-            </button></a
+    <!-- Mobile DIALOGS  CREATE  -->
+    <dialog id="new-folder-modal" class="p-6 rounded shadow-lg w-full max-w-md">
+      <form action="/folders" method="post" class="text-gray-700">
+        <h3 class="text-2xl font-bold mb-4">New folder</h3>
+        <div class="mb-2">
+          <label
+            for="newfolder"
+            class="block text-sm font-semibold mb-2"
+          ></label>
+          <input
+            type="text"
+            class="rounded-md px-4 py-3 w-full border text-sm"
+            value="Untitled file"
+            name="name"
+          />
+        </div>
+        <div class="flex justify-end gap-2">
+          <button
+            class="bg-white hover:bg-gray-200 rounded-xl px-4 py-3 closefolderModal"
+            type="button"
           >
+            Cancel
+          </button>
+          <button
+            class="bg-white hover:bg-gray-200 rounded-xl px-4 py-3"
+            type="submit"
+          >
+            Create
+          </button>
         </div>
-        <a href="" class="block bg-slate-400 rounded px-3 py-2 mb-3"
-          >Category</a
-        >
-        <a href="" class="block bg-slate-400 rounded px-3 py-2 mb-3"
-          >Category</a
-        >
+      </form>
+    </dialog>
 
-        <a href="" class="block bg-slate-400 rounded px-3 py-2 mb-3"
-          >Category</a
-        >
+    <!-- MOBILESIDEBAR  -->
+    <aside
+      class="bg-white shadow-lg rounded-xl min-h-screen p-5 w-80 transform -translate-x-full transition-transform duration-300 fixed"
+      id="sideBar"
+    >
+      <div class="flex justify-end">
+        <form action="/logout" method="post">
+          <button
+            class="bg-slate-200 rounded px-3 py-2 text-sm max-w-md mb-2"
+            type="submit"
+          >
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Log-out
+          </button>
+        </form>
+      </div>
 
-        <a href="" class="block bg-slate-400 rounded px-3 py-2 mb-3"
-          >Category</a
+      <h2 class="text-2xl my-4">Folders</h2>
+      <button class="bg-blue-500 rounded px-3 py-2 text-sm w-full mb-2">
+        <i class="fa-solid fa-plus"></i>
+        New
+      </button>
+
+      <%folders.forEach((folder)=>{ %>
+      <div
+        class="hover:bg-blue-500 rounded px-3 py-1 mb-3 flex justify-between items-center relative"
+      >
+        <i class="fas fa-folder text-purple-500"></i>
+
+        <a href="/folders/<%=folder.id %>"><%=folder.name %></a>
+        <div
+          class="text-gray-400 p-2 hover:text-gray-900 cursor-pointer action-menu-btn"
         >
+          <i class="fas fa-ellipsis-v folderId" data-Id="<%folder.id %>"></i>
+        </div>
+        <div
+          class="hidden bg-white shadow-lg right-0 z-20 top-1/2 rounded-md w-32 absolute mt-2 action-menu"
+        >
+          <button
+            class="block w-full text-left px-4 py-2 hover:bg-slate-100 rounded-md text-gray-700 edit-btn"
+            data-name="<%=folder.name %>"
+          >
+            Rename
+          </button>
+          <a
+            href="/folders/share/<%=folder.id %>"
+            class="block w-full text-left px-4 py-2 hover:bg-slate-100 rounded-md text-gray-700"
+            data-name="<%=folder.name %>"
+          >
+            Share
+          </a>
+          <form action="/folders/delete/<%= folder.id %>" method="POST">
+            <button
+              type="submit"
+              class="block w-full text-left px-4 py-2 hover:bg-slate-100 rounded-md text-red-500"
+            >
+              Delete
+            </button>
+          </form>
+        </div>
+      </div>
+      <dialog
+        id="edit-folder-modal"
+        class="p-6 rounded shadow-lg w-full max-w-md"
+      >
+        <form
+          action="/folders/<%= folder.id %>/edit"
+          method="post"
+          class="text-gray-700"
+        >
+          <h3 class="text-2xl font-bold mb-4">Rename</h3>
+          <div class="mb-2">
+            <label
+              for="newfolder"
+              class="block text-sm font-semibold mb-2"
+            ></label>
+            <input
+              type="text"
+              class="rounded-md px-4 py-3 w-full border text-sm"
+              id="edit-folder-input"
+              name="name"
+            />
+          </div>
+          <div class="flex justify-end gap-2">
+            <button
+              class="bg-white hover:bg-gray-200 rounded-xl px-4 py-3 closefolderModal"
+              type="button"
+            >
+              Cancel
+            </button>
+            <form action="/folders/<%= folder.id %>/edit" method="post">
+              <button
+                class="bg-white hover:bg-gray-200 rounded-xl px-4 py-3"
+                type="submit"
+              >
+                Rename
+              </button>
+            </form>
+          </div>
+        </form>
+      </dialog>
+      <%})%>
+    </aside>
+
+    <div class="flex">
+      <!-- LARGE SCREEN ASIDE -->
+      <aside
+        class="hidden bg-white shadow-lg rounded-xl min-h-screen p-5 w-80 lg:block"
+      >
+        <div class="flex justify-between mb-3 items-center">
+          <h2 class="text-2xl">Folders</h2>
+
+          <button
+            class="bg-slate-200 rounded px-3 py-2 text-sm"
+            id="open-folder-modal"
+          >
+            + New
+          </button>
+        </div>
+        <%folders.forEach((folder)=>{ %>
+        <div
+          class="hover:bg-blue-500 rounded px-3 py-1 mb-3 flex justify-between items-center relative"
+        >
+          <i class="fas fa-folder text-purple-500"></i>
+          <a href="/folders/<%= folder.id %>"><%=folder.name %></a>
+          <button
+            class="text-gray-600 hover:text-gray-900 cursor-pointer action-menu-btn p-2"
+          >
+            <i class="fas fa-ellipsis-v"></i>
+          </button>
+          <div
+            class="hidden bg-white shadow-lg right-0 z-20 top-full rounded-md w-32 absolute mt-2 action-menu"
+          >
+            <button
+              class="block w-full text-left px-4 py-2 hover:bg-slate-100 rounded-md text-gray-700 edit-btn"
+              data-name="<%=folder.name %>"
+            >
+              Rename
+            </button>
+            <a
+              href="/folders/share/<%=folder.id %>"
+              class="block w-full text-left px-4 py-2 hover:bg-slate-100 rounded-md text-gray-700"
+              data-name="<%=folder.name %>"
+            >
+              Share
+            </a>
+            <form action="/folders/delete/<%= folder.id %>" method="POST">
+              <button
+                type="submit"
+                class="block w-full text-left px-4 py-2 hover:bg-slate-100 rounded-md text-red-500"
+              >
+                Delete
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- EDIT DIALOGS -->
+        <dialog
+          id="edit-folder-modal"
+          class="p-6 rounded shadow-lg w-full max-w-md"
+        >
+          <form
+            action="/folders/<%= folder.id %>/edit"
+            method="post"
+            class="text-gray-700"
+          >
+            <h3 class="text-2xl font-bold mb-4">Rename</h3>
+            <div class="mb-2">
+              <label
+                for="newfolder"
+                class="block text-sm font-semibold mb-2"
+              ></label>
+              <input
+                type="text"
+                class="rounded-md px-4 py-3 w-full border text-sm"
+                id="edit-folder-input"
+                name="name"
+              />
+            </div>
+            <div class="flex justify-end gap-2">
+              <button
+                class="bg-white hover:bg-gray-200 rounded-xl px-4 py-3 closefolderModal"
+                type="button"
+              >
+                Cancel
+              </button>
+              <form action="/folders/<%= folder.id %>/edit" method="post">
+                <button
+                  class="bg-white hover:bg-gray-200 rounded-xl px-4 py-3"
+                  type="submit"
+                >
+                  Rename
+                </button>
+              </form>
+            </div>
+          </form>
+        </dialog>
+        <%})%>
       </aside>
-      <div class="p-9 w-full md:max-w-4xl">
-        <div class="flex justify-between mb-2">
-          <h1 class="font-bold">Files</h1>
-          <a href="/file/new"><button class="bg-slate-200 rounded px-3 py-2">Create New</button></a>
-        </div>
 
+      <!-- MAIN DIV  -->
+      <div class="w-full">
+        <!-- NAVBAR  -->
+        <nav class="p-5 bg-slate-200 shadow-lg rounded-xl">
+          <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-2xl">
+              <%=ownerName.username %>'s Drive
+            </h2>
+
+            <form action="/logout" method="post" class="hidden md:block">
+              <button class="px-3 text-sm max-w-md" type="submit">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Log-out
+              </button>
+            </form>
+
+            <!-- SIDEBAR TOGGLER-->
+            <button
+              class="lg:hidden rounded-xl bg-slate-400 p-4 focus:ring-4 focus:ring-blue-500"
+              id="menuBtn"
+            >
+              <div class="hamburger-icon" id="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </button>
+          </div>
+        </nav>
+
+        <!-- CONTENT  -->
+        <div class="p-5">
+          <div class="p-8 rounded-2xl bg-white mt-4">
+            <div class="flex justify-between mb-2 items-center p-2">
+              <h1 class="font-bold">Files</h1>
+              <a href="/file/new/<%=folderId %>"
+                ><button class="bg-slate-200 rounded px-3 py-2">
+                  + New
+                </button></a
+              >
+            </div>
+
+            <div class="divide-y">
+              <div class="grid grid-cols-4 items-center my-3 p-2">
+                <p class="col-span-2">Name</p>
+                <p class="">Uploaded on</p>
+                <p class="">file size</p>
+              </div>
+              <% files.forEach((file)=>{ %>
+              <div
+                class="grid grid-cols-4 items-center cursor-pointer hover:bg-blue-500 rounded p-2 items"
+              >
+                <p class="col-span-2 truncate"><%=file.originalName %></p>
+                <p><%= file.createdAt.toLocaleString() %></p>
+                <p><%= file.size %> Kb</p>
+              </div>
+              <dialog
+                class="p-9 rounded outline-none w-full md:max-w-md sm:max-w-full file-modal"
+              >
+                <div class="flex justify-between items-center mx-3">
+                  <h3 class="text-xl font-bold"><%=file.originalName %></h3>
+                  <button class="outline-none close-modal-btn">
+                    <i
+                      class="fa-solid fa-xmark text-gray-400 sm:top-0 text-2xl"
+                    ></i>
+                  </button>
+                </div>
+                <div
+                  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 text-center p-5"
+                >
+                  <a
+                    href="<%= file.url ? file.url.replace('/upload/', '/upload/fl_attachment/') : '#' %>"
+                    class="flex flex-col items-center p-4 rounded-lg hover:bg-slate-400"
+                    download
+                  >
+                    <i
+                      class="fa-solid fa-download h-8 w-8 text-blue-500 mb-1"
+                    ></i>
+                    <span class="text-sm font-medium text-gray-700"
+                      >Download</span
+                    >
+                  </a>
+
+                  <form
+                    action="/file/delete/<%=file.id %>"
+                    method="post"
+                    class="flex flex-col items-center p-4 rounded-lg hover:bg-slate-400"
+                  >
+                    <i
+                      class="fa-solid fa-trash-can h-8 w-8 text-red-500 mb-2"
+                    ></i>
+                    <button class="text-sm font-medium text-gray-700">
+                      Delete
+                    </button>
+                  </form>
+                </div>
+              </dialog>
+              <%})%>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
+  <script src="../index.js"></script>
 </html>

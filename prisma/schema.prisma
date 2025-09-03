@@ -32,13 +32,14 @@ model Folder{
   ownerId Int
   owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   files File[]
+  sharedFolders SharedFolder[]
 }
 
 model File {
   id Int @id @default(autoincrement())
   originalName String
-  storedName String
-  mimeType String
+  url String ?
+  publicId String ?
   size Int
   createdAt DateTime @default(now())
   folderId Int 
@@ -54,5 +55,12 @@ model Session{
   expiresAt DateTime
 }
 
-// sign-up.ejs
-// login.ejs
+model SharedFolder{
+  id Int @id @default(autoincrement())
+  shareId String @unique
+  folderId Int
+  folder Folder @relation(fields: [folderId], references: [id])
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+

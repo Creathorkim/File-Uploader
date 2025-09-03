@@ -8,7 +8,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <title>Create New Folder</title>
+    <title>Share folder</title>
     <style>
       body {
         font-family: "Inter", sans-serif;
@@ -19,24 +19,27 @@
     <div
       class="bg-slate-200 p-8 rounded-lg shadow-lg w-full md:max-w-3xl sm:max-w-md text-gray-700"
     >
-      <form action="/create-new-folder" method="post">
-        <h3 class="text-center text-3xl font-bold mb-8">Add a new Folder</h3>
+      <form action="/folders/share/<%=folderId %>" method="post">
+        <h3 class="text-center text-3xl font-bold mb-8">Share this folder</h3>
         <div class="mb-3">
-          <label for="FolderName" class="block text-sm font-semibold mb-2"
-            >Name</label
+          <label for="share Duration" class="block text-sm font-semibold mb-2"
+            >Share Duration :
+          </label>
+          <select
+            name="duration"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white font-medium hover:border-gray-400 cursor-pointer outline-none"
           >
-          <input
-            type="text"
-            class="rounded-md px-4 py-3 w-full border outline-none"
-            name="name"
-            placeholder="Enter a unique Username"
-            required
-          />
+           <option value="" selected disabled>Choose duration...</option>
+            <option value="1">1 day</option>
+            <option value="7">7 days</option>
+            <option value="30">30 days</option>
+          </select>
         </div>
+
         <button
           class="bg-gray-700 text-white py-3 w-full rounded-md hover:bg-slate-950"
         >
-          Submit
+          Generate Share Link
         </button>
       </form>
     </div>

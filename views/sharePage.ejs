@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+      <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>Shared Folder</title>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="flex items-center justify-center min-h-screen bg-slate-100 p-5">
+    <div
+      class="w-full max-w-xl bg-white p-8 rounded-xl shadow-lg border border-slate-200"
+    >
+      <h2
+        class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2"
+      >
+        <i class="fas fa-folder text-blue-500 text-2xl"></i>
+        <%= folder.name %>
+      </h2>
+      <p class="text-sm text-slate-500 mb-6">
+        <i class="fas fa-user mr-1"></i>
+        <%= folder.owner.username %>
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <% folder.files.forEach((file)=>{ %>
+        <div
+          class="flex flex-col p-4 bg-slate-50 rounded-lg border border-slate-200 hover:border-slate-100"
+        >
+          <span
+            class="font-medium text-slate-700 truncate w-full mb-2 flex items-center gap-2"
+          >
+            <i class="fas fa-file text-slate-400"></i>
+            <%= file.originalName %>
+          </span>
+          <a
+            href="<%= file.url.replace('/upload/', '/upload/fl_attachment/')%>"
+            class="mt-auto self-end inline-flex items-center bg-blue-500 text-white text-sm font-semibold py-2 px-4 rounded-md hover:bg-blue-600"
+          >
+            Download
+            <i class="fas fa-download ml-2"></i>
+          </a>
+        </div>
+        <%}) %>
+      </div>
+    </div>
+  </body>
+</html>
+
