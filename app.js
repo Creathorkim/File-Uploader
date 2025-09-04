@@ -62,7 +62,7 @@ passport.deserializeUser(async (id, done) => {
 
 app.use("/", appRouter);
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`App live at ${port}`);
