@@ -178,6 +178,14 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "windows"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -204,8 +212,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  username  String   @unique\n  password  String\n  firstName String\n  lastName  String\n  createdAt DateTime @default(now())\n  folder    Folder[]\n  file      File[]\n}\n\nmodel Folder {\n  id            Int            @id @default(autoincrement())\n  name          String\n  ownerId       Int\n  owner         User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)\n  files         File[]\n  sharedFolders SharedFolder[]\n}\n\nmodel File {\n  id           Int      @id @default(autoincrement())\n  originalName String\n  url          String?\n  publicId     String?\n  size         Int\n  createdAt    DateTime @default(now())\n  folderId     Int\n  folder       Folder   @relation(fields: [folderId], references: [id])\n  uploaderId   Int\n  uploader     User     @relation(fields: [uploaderId], references: [id])\n}\n\nmodel Session {\n  id        String   @id\n  sid       String   @unique\n  data      String\n  expiresAt DateTime\n}\n\nmodel SharedFolder {\n  id        Int      @id @default(autoincrement())\n  shareId   String   @unique\n  folderId  Int\n  folder    Folder   @relation(fields: [folderId], references: [id])\n  expiresAt DateTime\n  createdAt DateTime @default(now())\n}\n",
-  "inlineSchemaHash": "31635b146ef62ada0cb92883c88f11016e8b3cb5fa3f759ab5a9bd10ac7a4702",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../generated/prisma\"\n  binaryTargets = [\"native\", \"windows\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  username  String   @unique\n  password  String\n  firstName String\n  lastName  String\n  createdAt DateTime @default(now())\n  folder    Folder[]\n  file      File[]\n}\n\nmodel Folder {\n  id            Int            @id @default(autoincrement())\n  name          String\n  ownerId       Int\n  owner         User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)\n  files         File[]\n  sharedFolders SharedFolder[]\n}\n\nmodel File {\n  id           Int      @id @default(autoincrement())\n  originalName String\n  url          String?\n  publicId     String?\n  size         Int\n  createdAt    DateTime @default(now())\n  folderId     Int\n  folder       Folder   @relation(fields: [folderId], references: [id])\n  uploaderId   Int\n  uploader     User     @relation(fields: [uploaderId], references: [id])\n}\n\nmodel Session {\n  id        String   @id\n  sid       String   @unique\n  data      String\n  expiresAt DateTime\n}\n\nmodel SharedFolder {\n  id        Int      @id @default(autoincrement())\n  shareId   String   @unique\n  folderId  Int\n  folder    Folder   @relation(fields: [folderId], references: [id])\n  expiresAt DateTime\n  createdAt DateTime @default(now())\n}\n",
+  "inlineSchemaHash": "3b447eed9fa8b062e4a4b8b62ca42ced3060564adfce18c50d9b3bfd77fb28f6",
   "copyEngine": true
 }
 config.dirname = '/'
